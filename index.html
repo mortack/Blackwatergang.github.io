@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Code Pénal USA – Last Horizon RP</title>
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0f0f10;
+      color: #e6e6e6;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #1a1a1d;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 2px solid #2a2a2d;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      color: #f5f5f5;
+    }
+    .container {
+      display: flex;
+      gap: 30px;
+      padding: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #1a1a1d;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    }
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid #2a2a2d;
+      text-align: left;
+    }
+    th {
+      background-color: #2a2a2d;
+      color: #f5f5f5;
+    }
+    input[type="number"] {
+      width: 80px;
+      background-color: #0f0f10;
+      border: 1px solid #444;
+      color: #fff;
+      padding: 5px;
+      border-radius: 6px;
+    }
+    input[type="checkbox"] {
+      transform: scale(1.2);
+    }
+    button {
+      background-color: #8f0b01;
+      color: #fff;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s;
+
+      position: sticky;
+      bottom: 20px;  /* reste visible en bas de la colonne */
+      float: right;  /* aligné à droite */
+      margin-top: 10px;
+      z-index: 10;
+    }
+    button:hover {
+      background-color: #1f5ed1;
+    }
+    .right {
+      flex: 1;
+      background-color: #1a1a1d;
+      border: 1px solid #2a2a2d;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+      position: sticky;
+      top: 20px;
+      height: fit-content;
+    }
+    .right h2 {
+      margin-top: 0;
+      font-size: 1.3rem;
+      border-bottom: 1px solid #2a2a2d;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+    .export-text {
+      white-space: pre-wrap;
+      font-family: monospace;
+      background-color: #0f0f10;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #2a2a2d;
+      min-height: 200px;
+      color: #ddd;
+    }
+    .total-box {
+      margin-top: 15px;
+      padding: 12px;
+      background-color: #0f0f10;
+      border: 1px solid #2a2a2d;
+      border-radius: 8px;
+      font-weight: bold;
+      color: #cf0404;
+    }
+	.article-chk {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 15px;
+    height: 15px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    background-color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    position: relative;
+	margin-bottom: -1%;
+  }
+	.article-chk:checked {
+    background-color: #cf0404;
+    border-color: white;
+  }
+  #textMemo {
+  position: sticky;
+  bottom: 0;
+  left: 55%;
+  background-color: #1a1a1d;
+  border: 1px solid #2a2a2d;
+  border-radius: 8px;
+  padding: 5px;
+  padding-left: 2%;
+  margin-top: 5px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+  text-shadow: 4px 4px 5px darkblue;
+  width: 20%
+}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Code Pénal USA – Police de Blackwater </h1>
+  </header>
+  <div class="container">
+    <div class="left">
+      <table>
+        <tr>
+          <th>Article</th>
+          <th>Nom</th>
+          <th>Amende ($)</th>
+		  <th>Amende-max($)</th>
+		  <th>Geôle / TIG</th>
+          <th>Geôle / TIG max</th>
+        </tr>
+        <!-- Délits mineurs -->
+        <tr>
+			<td><input type="checkbox" class="article-chk" data-article="1.1"> 1.1</td>
+			<td>Vol mineur</td>
+			<td><input type="number" class="amende" min="0" value="10"></td>
+			<td><input type="number" class="amende-max" min="0" value="25"></td>
+			<td><input type="number" class="temps" min="0" value="0"></td>
+			<td><input type="number" class="temps-Max" min="0" value="10"></td>
+		  </tr>
+		  <tr>
+			<td><input type="checkbox" class="article-chk" data-article="1.2"> 1.2</td>
+			<td>Vol d'un cheval</td>
+			<td><input type="number" class="amende" min="0" value="25"></td>
+			<td><input type="number" class="amende-max" min="0" value="50"></td>
+			<td><input type="number" class="temps" min="0" value="0"></td>
+			<td><input type="number" class="temps-Max" min="0" value="20"></td>
+		  </tr>
+		  <tr>
+			<td><input type="checkbox" class="article-chk" data-article="1.3"> 1.3</td>
+			<td>Vandalisme intentionnel</td>
+			<td><input type="number" class="amende" min="0" value="25"></td>
+			<td><input type="number" class="amende-max" min="0" value="50"></td>
+			<td><input type="number" class="temps" min="0" value="0"></td>
+			<td><input type="number" class="temps-Max" min="0" value="10"></td>
+		  </tr>
+		  <tr>
+			<td><input type="checkbox" class="article-chk" data-article="1.4"> 1.4</td>
+			<td>Contrebande (Recel)</td>
+			<td><input type="number" class="amende" min="0" value="25"></td>
+			<td><input type="number" class="amende-max" min="0" value="50"></td>
+			<td><input type="number" class="temps" min="0" value="0"></td>
+			<td><input type="number" class="temps-Max" min="0" value="20"></td>
+		  </tr>
+		  <tr>
+			<td><input type="checkbox" class="article-chk" data-article="1.5"> 1.5</td>
+			<td>Blessure involontaire ou intentionnelle</td>
+			<td><input type="number" class="amende" min="0" value="25"></td>
+			<td><input type="number" class="amende-max" min="0" value="50"></td>
+			<td><input type="number" class="temps" min="0" value="0"></td>
+			<td><input type="number" class="temps-Max" min="0" value="15"></td>
+		  </tr>
+		  <tr>
+			<td><input type="checkbox" class="article-chk" data-article="1.6"> 1.6</td>
+			<td>Refus d'obtempérer/Entrave</td>
+			<td><input type="number" class="amende" min="0" value="35"></td>
+			<td><input type="number" class="amende-max" min="0" value="75"></td>
+			<td><input type="number" class="temps" min="0" value="0"></td>
+			<td><input type="number" class="temps-Max" min="0" value="20"></td>
+		  </tr>
+		  <tr>
+			<td><input type="checkbox" class="article-chk" data-article="1.7"> 1.7</td>
+			<td>Trouble à l'ordre public</td>
+			<td><input type="number" class="amende" min="0" value="25"></td>
+			<td><input type="number" class="amende-max" min="0" value="25"></td>
+			<td><input type="number" class="temps" min="0" value="0"></td>
+			<td><input type="number" class="temps-Max" min="0" value="10"></td>
+		  </tr>
+		  <tr>
+			<td><input type="checkbox" class="article-chk" data-article="1.8"> 1.8</td>
+			<td>Ivresse sur la voie publique</td>
+			<td><input type="number" class="amende" min="0" value="10"></td>
+			<td><input type="number" class="amende-max" min="0" value="10"></td>
+			<td><input type="number" class="temps" min="0" value="0"></td>
+			<td><input type="number" class="temps-Max" min="0" value="10"></td>
+		  </tr>
+		  <tr>
+			<td><input type="checkbox" class="article-chk" data-article="1.9"> 1.9</td>
+			<td>Défaut de papiers</td>
+			<td><input type="number" class="amende" min="0" value="10"></td>
+			<td><input type="number" class="amende-max" min="0" value="15"></td>
+			<td><input type="number" class="temps" min="0" value="0"></td>
+			<td><input type="number" class="temps-Max" min="0" value="10"></td>
+		  </tr>
+		  <tr>
+			<td><input type="checkbox" class="article-chk" data-article="1.10"> 1.10</td>
+			<td>Dissimulation du visage en zone urbaine</td>
+			<td><input type="number" class="amende" min="0" value="15"></td>
+			<td><input type="number" class="amende-max" min="0" value="35"></td>
+			<td><input type="number" class="temps" min="0" value="0"></td>
+			<td><input type="number" class="temps-Max" min="0" value="10"></td>
+		  </tr>
+		  <tr>
+			<td><input type="checkbox" class="article-chk" data-article="1.11"> 1.11</td>
+			<td>Travail dissimulé</td>
+			<td><input type="number" class="amende" min="0" value="10"></td>
+			<td><input type="number" class="amende-max" min="0" value="25"></td>
+			<td><input type="number" class="temps" min="0" value="0"></td>
+			<td><input type="number" class="temps-Max" min="0" value="15"></td>
+		  </tr>
+		  <tr>
+			<td><input type="checkbox" class="article-chk" data-article="1.12"> 1.12</td>
+			<td>Non-paiement d'une facture</td>
+			<td><input type="number" class="amende" min="0" value="10"></td>
+			<td><input type="number" class="amende-max" min="0" value="50"></td>
+			<td><input type="number" class="temps" min="0" value="0"></td>
+			<td><input type="number" class="temps-Max" min="0" value="10"></td>
+		  </tr>
+		  <tr>
+			<td><input type="checkbox" class="article-chk" data-article="1.13"> 1.13</td>
+			<td>Défaut de convocation d'État</td>
+			<td><input type="number" class="amende" min="0" value="25"></td>
+			<td><input type="number" class="amende-max" min="0" value="150"></td>
+			<td><input type="number" class="temps" min="0" value="0"></td>
+			<td><input type="number" class="temps-Max" min="0" value="15"></td>
+		  </tr>
+		  <tr>
+			<td><input type="checkbox" class="article-chk" data-article="1.14"> 1.14</td>
+			<td>Possession d'arme par un mineur</td>
+			<td><input type="number" class="amende" min="0" value="0"></td>
+			<td><input type="number" class="amende-max" min="0" value="0"></td>
+			<td><input type="number" class="temps" min="0" value="0"></td>
+			<td><input type="number" class="temps-Max" min="0" value="0"></td>
+		  </tr>
+		  <tr>
+			<td><input type="checkbox" class="article-chk" data-article="1.15"> 1.15</td>
+			<td>Usurpation d'identité</td>
+			<td><input type="number" class="amende" min="0" value="125"></td>
+			<td><input type="number" class="amende-max" min="0" value="250"></td>
+			<td><input type="number" class="temps" min="0" value="0"></td>
+			<td><input type="number" class="temps-Max" min="0" value="20"></td>
+		  </tr>
+		  <tr>
+			<td><input type="checkbox" class="article-chk" data-article="1.16"> 1.16</td>
+			<td>Corruption ou tentative</td>
+			<td><input type="number" class="amende" min="0" value="50"></td>
+			<td><input type="number" class="amende-max" min="0" value="100"></td>
+			<td><input type="number" class="temps" min="0" value="0"></td>
+			<td><input type="number" class="temps-Max" min="0" value="30"></td>
+		  </tr>
+		  <tr>
+			<td><input type="checkbox" class="article-chk" data-article="1.17"> 1.17</td>
+			<td>Outrage à un membre du Dép. Justice</td>
+			<td><input type="number" class="amende" min="0" value="75"></td>
+			<td><input type="number" class="amende-max" min="0" value="150"></td>
+			<td><input type="number" class="temps" min="0" value="0"></td>
+			<td><input type="number" class="temps-Max" min="0" value="15"></td>
+		  </tr>
+		  <tr>
+			<td><input type="checkbox" class="article-chk" data-article="1.18"> 1.18</td>
+			<td>Outrage à un membre du NMO</td>
+			<td><input type="number" class="amende" min="0" value="50"></td>
+			<td><input type="number" class="amende-max" min="0" value="100"></td>
+			<td><input type="number" class="temps" min="0" value="0"></td>
+			<td><input type="number" class="temps-Max" min="0" value="15"></td>
+		  </tr>
+		  <tr>
+			<td><input type="checkbox" class="article-chk" data-article="1.19"> 1.19</td>
+			<td>Tenue non conforme</td>
+			<td><input type="number" class="amende" min="0" value="20"></td>
+			<td><input type="number" class="amende-max" min="0" value="50"></td>
+			<td><input type="number" class="temps" min="0" value="0"></td>
+			<td><input type="number" class="temps-Max" min="0" value="10"></td>
+		  </tr>
+		  <tr>
+			<td><input type="checkbox" class="article-chk" data-article="1.20"> 1.20</td>
+			<td>Galop en agglomération</td>
+			<td><input type="number" class="amende" min="0" value="25"></td>
+			<td><input type="number" class="amende-max" min="0" value="50"></td>
+			<td><input type="number" class="temps" min="0" value="0"></td>
+			<td><input type="number" class="temps-Max" min="0" value="20"></td>
+		  </tr>
+		  <tr>
+			<td><input type="checkbox" class="article-chk" data-article="1.21"> 1.21</td>
+			<td>Interdiction de courir en zone urbaine</td>
+			<td><input type="number" class="amende" min="0" value="10"></td>
+			<td><input type="number" class="amende-max" min="0" value="25"></td>
+			<td><input type="number" class="temps" min="0" value="0"></td>
+			<td><input type="number" class="temps-Max" min="0" value="20"></td>
+		  </tr>
+		  <tr>
+			<td><input type="checkbox" class="article-chk" data-article="1.22"> 1.22</td>
+			<td>Outrage au Tribunal</td>
+			<td><input type="number" class="amende" min="0" value="30"></td>
+			<td><input type="number" class="amende-max" min="0" value="200"></td>
+			<td><input type="number" class="temps" min="0" value="0"></td>
+			<td><input type="number" class="temps-Max" min="0" value="40"></td>
+		  </tr>
+	</table>
+      <!-- Fin des delits mineur -->
+	  <!-- Debut délit majeur-->
+	  <table style ="margin-top: 1em;">
+        <tr>
+          <th>Article</th>
+          <th>Nom</th>
+          <th>Amende ($)</th>
+		  <th>Amende-max($)</th>
+		  <th>Geôle / TIG</th>
+          <th>Geôle / TIG max</th>
+        </tr>
+		<tr>
+		  <td><input type="checkbox" class="article-chk" data-article="2.1"> 2.1</td>
+		  <td>Braquage de magasin</td>
+		  <td><input type="number" class="amende" min="0" value="70"></td>
+		  <td><input type="number" class="amende-max" min="0" value="150"></td>
+		  <td><input type="number" class="temps" min="0" value="0"></td>
+		  <td><input type="number" class="temps-Max" min="0" value="45"></td>
+		</tr>
+		<tr>
+		  <td><input type="checkbox" class="article-chk" data-article="2.2"> 2.2</td>
+		  <td>Braquage de banque</td>
+		  <td><input type="number" class="amende" min="0" value="300"></td>
+		  <td><input type="number" class="amende-max" min="0" value="800"></td>
+		  <td><input type="number" class="temps" min="0" value="0"></td>
+		  <td><input type="number" class="temps-Max" min="0" value="60"></td>
+		</tr>
+		<tr>
+		  <td><input type="checkbox" class="article-chk" data-article="2.2.1"> 2.2.1</td>
+		  <td>Braquage de la Banque Nationale</td>
+		  <td><input type="number" class="amende" min="0" value="400"></td>
+		  <td><input type="number" class="amende-max" min="0" value="1200"></td>
+		  <td><input type="number" class="temps" min="0" value="0"></td>
+		  <td><input type="number" class="temps-Max" min="0" value="80"></td>
+		</tr>
+		<tr>
+		  <td><input type="checkbox" class="article-chk" data-article="2.3"> 2.3</td>
+		  <td>Braquage de train</td>
+		  <td><input type="number" class="amende" min="0" value="500"></td>
+		  <td><input type="number" class="amende-max" min="0" value="2500"></td>
+		  <td><input type="number" class="temps" min="0" value="0"></td>
+		  <td><input type="number" class="temps-Max" min="0" value="120"></td>
+		</tr>
+		<tr>
+		  <td><input type="checkbox" class="article-chk" data-article="2.4"> 2.4</td>
+		  <td>Braquage de diligence</td>
+		  <td><input type="number" class="amende" min="0" value="70"></td>
+		  <td><input type="number" class="amende-max" min="0" value="150"></td>
+		  <td><input type="number" class="temps" min="0" value="0"></td>
+		  <td><input type="number" class="temps-Max" min="0" value="45"></td>
+		</tr>
+		<tr>
+		  <td><input type="checkbox" class="article-chk" data-article="2.5"> 2.5</td>
+		  <td>Association de malfaiteurs (Decision du juge)</td>
+		  <td><input type="number" class="amende" min="0" value="0"></td>
+		  <td><input type="number" class="amende-max" min="0" value="0"></td>
+		  <td><input type="number" class="temps" min="0" value="0"></td>
+		  <td><input type="number" class="temps-Max" min="0" value="0"></td>
+		</tr>
+		<tr>
+		  <td><input type="checkbox" class="article-chk" data-article="2.6"> 2.6</td>
+		  <td>Vol de bétail</td>
+		  <td><input type="number" class="amende" min="0" value="0"></td>
+		  <td><input type="number" class="amende-max" min="0" value="25"></td>
+		  <td><input type="number" class="temps" min="0" value="0"></td>
+		  <td><input type="number" class="temps-Max" min="0" value="45"></td>
+		</tr>
+		<tr>
+		  <td><input type="checkbox" class="article-chk" data-article="2.7"> 2.7</td>
+		  <td>Agression armée</td>
+		  <td><input type="number" class="amende" min="0" value="60"></td>
+		  <td><input type="number" class="amende-max" min="0" value="125"></td>
+		  <td><input type="number" class="temps" min="0" value="0"></td>
+		  <td><input type="number" class="temps-Max" min="0" value="60"></td>
+		</tr>
+		<tr>
+		  <td><input type="checkbox" class="article-chk" data-article="2.8"> 2.8</td>
+		  <td>Tentative de meurtre</td>
+		  <td><input type="number" class="amende" min="0" value="100"></td>
+		  <td><input type="number" class="amende-max" min="0" value="250"></td>
+		  <td><input type="number" class="temps" min="0" value="45"></td>
+		  <td><input type="number" class="temps-Max" min="0" value="90"></td>
+		</tr>
+		<tr>
+		  <td><input type="checkbox" class="article-chk" data-article="2.9"> 2.9</td>
+		  <td>Incendie volontaire</td>
+		  <td><input type="number" class="amende" min="0" value="80"></td>
+		  <td><input type="number" class="amende-max" min="0" value="150"></td>
+		  <td><input type="number" class="temps" min="0" value="0"></td>
+		  <td><input type="number" class="temps-Max" min="0" value="60"></td>
+		</tr>
+		<tr>
+		  <td><input type="checkbox" class="article-chk" data-article="2.10"> 2.10</td>
+		  <td>Dégradation de biens publics/privés</td>
+		  <td><input type="number" class="amende" min="0" value="100"></td>
+		  <td><input type="number" class="amende-max" min="0" value="200"></td>
+		  <td><input type="number" class="temps" min="0" value="0"></td>
+		  <td><input type="number" class="temps-Max" min="0" value="50"></td>
+		</tr>
+		<tr>
+		  <td><input type="checkbox" class="article-chk" data-article="2.11"> 2.11</td>
+		  <td>Prise d'otage (par otage)</td>
+		  <td><input type="number" class="amende" min="0" value="50"></td>
+		  <td><input type="number" class="amende-max" min="0" value="100"></td>
+		  <td><input type="number" class="temps" min="0" value="25"></td>
+		  <td><input type="number" class="temps-Max" min="0" value="50"></td>
+		</tr>
+		<tr>
+		  <td><input type="checkbox" class="article-chk" data-article="2.12"> 2.12</td>
+		  <td>Mise en danger de la vie d'autrui</td>
+		  <td><input type="number" class="amende" min="0" value="0"></td>
+		  <td><input type="number" class="amende-max" min="0" value="100"></td>
+		  <td><input type="number" class="temps" min="0" value="0"></td>
+		  <td><input type="number" class="temps-Max" min="0" value="60"></td>
+		</tr>
+		<tr>
+		  <td><input type="checkbox" class="article-chk" data-article="2.13"> 2.13</td>
+		  <td>Possession d'arme volée</td>
+		  <td><input type="number" class="amende" min="0" value="0"></td>
+		  <td><input type="number" class="amende-max" min="0" value="0"></td>
+		  <td><input type="number" class="temps" min="0" value="0"></td>
+		  <td><input type="number" class="temps-Max" min="0" value="0"></td>
+		</tr>
+		<tr>
+		  <td><input type="checkbox" class="article-chk" data-article="2.14"> 2.14</td>
+		  <td>Revente d'arme volée</td>
+		  <td><input type="number" class="amende" min="0" value="0"></td>
+		  <td><input type="number" class="amende-max" min="0" value="100"></td>
+		  <td><input type="number" class="temps" min="0" value="0"></td>
+		  <td><input type="number" class="temps-Max" min="0" value="45"></td>
+		</tr>
+		<tr>
+		  <td><input type="checkbox" class="article-chk" data-article="2.15"> 2.15</td>
+		  <td>Extorsion (+ remboursement)</td>
+		  <td><input type="number" class="amende" min="0" value="70"></td>
+		  <td><input type="number" class="amende-max" min="0" value="150"></td>
+		  <td><input type="number" class="temps" min="0" value="0"></td>
+		  <td><input type="number" class="temps-Max" min="0" value="50"></td>
+		</tr>
+		<tr>
+		  <td><input type="checkbox" class="article-chk" data-article="2.16"> 2.16</td>
+		  <td>Séquestration</td>
+		  <td><input type="number" class="amende" min="0" value="100"></td>
+		  <td><input type="number" class="amende-max" min="0" value="200"></td>
+		  <td><input type="number" class="temps" min="0" value="0"></td>
+		  <td><input type="number" class="temps-Max" min="0" value="60"></td>
+		</tr>
+		<tr>
+		  <td><input type="checkbox" class="article-chk" data-article="2.17"> 2.17</td>
+		  <td>Usurpation d'une fonction d'État</td>
+		  <td><input type="number" class="amende" min="0" value="100"></td>
+		  <td><input type="number" class="amende-max" min="0" value="350"></td>
+		  <td><input type="number" class="temps" min="0" value="0"></td>
+		  <td><input type="number" class="temps-Max" min="0" value="80"></td>
+		</tr>
+		<tr>
+		  <td><input type="checkbox" class="article-chk" data-article="2.18"> 2.18</td>
+		  <td>Harcèlement/Acharnement</td>
+		  <td><input type="number" class="amende" min="0" value="60"></td>
+		  <td><input type="number" class="amende-max" min="0" value="125"></td>
+		  <td><input type="number" class="temps" min="0" value="0"></td>
+		  <td><input type="number" class="temps-Max" min="0" value="45"></td>
+		</tr>
+		<tr>
+		  <td><input type="checkbox" class="article-chk" data-article="2.19"> 2.19</td>
+		  <td>Intrusion dans un bâtiment d'état</td>
+		  <td><input type="number" class="amende" min="0" value="100"></td>
+		  <td><input type="number" class="amende-max" min="0" value="300"></td>
+		  <td><input type="number" class="temps" min="0" value="0"></td>
+		  <td><input type="number" class="temps-Max" min="0" value="60"></td>
+		</tr>
+		<tr>
+		  <td><input type="checkbox" class="article-chk" data-article="2.20"> 2.20</td>
+		  <td>Fausses déclarations</td>
+		  <td><input type="number" class="amende" min="0" value="50"></td>
+		  <td><input type="number" class="amende-max" min="0" value="100"></td>
+		  <td><input type="number" class="temps" min="0" value="0"></td>
+		  <td><input type="number" class="temps-Max" min="0" value="45"></td>
+		</tr>
+		<tr>
+		  <td><input type="checkbox" class="article-chk" data-article="2.21"> 2.21</td>
+		  <td>Intrusion sur propriété privée</td>
+		  <td><input type="number" class="amende" min="0" value="100"></td>
+		  <td><input type="number" class="amende-max" min="0" value="250"></td>
+		  <td><input type="number" class="temps" min="0" value="0"></td>
+		  <td><input type="number" class="temps-Max" min="0" value="60"></td>
+		</tr>
+		<tr>
+		  <td><input type="checkbox" class="article-chk" data-article="2.22"> 2.22</td>
+		  <td>Usurpation d'uniforme</td>
+		  <td><input type="number" class="amende" min="0" value="100"></td>
+		  <td><input type="number" class="amende-max" min="0" value="250"></td>
+		  <td><input type="number" class="temps" min="0" value="0"></td>
+		  <td><input type="number" class="temps-Max" min="0" value="60"></td>
+		</tr>
+		<tr>
+		  <td><input type="checkbox" class="article-chk" data-article="2.23"> 2.23</td>
+		  <td>Transgression d'une mesure d'État d'urgence</td>
+		  <td><input type="number" class="amende" min="0" value="500"></td>
+		  <td><input type="number" class="amende-max" min="0" value="1500"></td>
+		  <td><input type="number" class="temps" min="0" value="50"></td>
+		  <td><input type="number" class="temps-Max" min="0" value="150"></td>
+		</tr>
+		</table>
+		<!-- Fin Délits Majeur -->
+		<!--Crimes -->
+		<table style ="margin-top: 1em;">
+        <tr>
+          <th>Article</th>
+          <th>Nom</th>
+          <th>Amende ($)</th>
+		  <th>Amende-max($)</th>
+		  <th>Geôle / TIG</th>
+          <th>Geôle / TIG max</th>
+        </tr>
+			<tr>
+			  <td><input type="checkbox" class="article-chk" data-article="3.1"> 3.1</td>
+			  <td>Meurtre sur concitoyen</td>
+			  <td><input type="number" class="amende" min="0" value="0"></td>
+			  <td><input type="number" class="amende-max" min="0" value="300"></td>
+			  <td><input type="number" class="temps" min="0" value="0"></td>
+			  <td><input type="number" class="temps-Max" min="0" value="70"></td>
+			</tr>
+			<tr>
+			  <td><input type="checkbox" class="article-chk" data-article="3.2"> 3.2</td>
+			  <td>Meurtre sur civil (peine de mort)</td>
+			  <td><input type="number" class="amende" min="0" value="0"></td>
+			  <td><input type="number" class="amende-max" min="0" value="0"></td>
+			  <td><input type="number" class="temps" min="0" value="0"></td>
+			  <td><input type="number" class="temps-Max" min="0" value="0"></td>
+			</tr>
+			<tr>
+			  <td><input type="checkbox" class="article-chk" data-article="3.3"> 3.3</td>
+			  <td>Atteinte à l'État</td>
+			  <td><input type="number" class="amende" min="0" value="200"></td>
+			  <td><input type="number" class="amende-max" min="0" value="650"></td>
+			  <td><input type="number" class="temps" min="0" value="0"></td>
+			  <td><input type="number" class="temps-Max" min="0" value="75"></td>
+			</tr>
+			<tr>
+			  <td><input type="checkbox" class="article-chk" data-article="3.4"> 3.4</td>
+			  <td>Massacre (peine de mort)</td>
+			  <td><input type="number" class="amende" min="0" value="0"></td>
+			  <td><input type="number" class="amende-max" min="0" value="0"></td>
+			  <td><input type="number" class="temps" min="0" value="0"></td>
+			  <td><input type="number" class="temps-Max" min="0" value="0"></td>
+			</tr>
+			<tr>
+			  <td><input type="checkbox" class="article-chk" data-article="3.5"> 3.5</td>
+			  <td>Profanation de corps ou de tombes</td>
+			  <td><input type="number" class="amende" min="0" value="750"></td>
+			  <td><input type="number" class="amende-max" min="0" value="750"></td>
+			  <td><input type="number" class="temps" min="0" value="0"></td>
+			  <td><input type="number" class="temps-Max" min="0" value="90"></td>
+			</tr>
+			<tr>
+			  <td><input type="checkbox" class="article-chk" data-article="3.6"> 3.6</td>
+			  <td>Braquage (mort de civil, peine de mort)</td>
+			  <td><input type="number" class="amende" min="0" value="0"></td>
+			  <td><input type="number" class="amende-max" min="0" value="0"></td>
+			  <td><input type="number" class="temps" min="0" value="0"></td>
+			  <td><input type="number" class="temps-Max" min="0" value="0"></td>
+			</tr>
+			<tr>
+			  <td><input type="checkbox" class="article-chk" data-article="3.7"> 3.7</td>
+			  <td>Assassinat ciblé (peine de mort)</td>
+			  <td><input type="number" class="amende" min="0" value="0"></td>
+			  <td><input type="number" class="amende-max" min="0" value="0"></td>
+			  <td><input type="number" class="temps" min="0" value="0"></td>
+			  <td><input type="number" class="temps-Max" min="0" value="0"></td>
+			</tr>
+			<tr>
+			  <td><input type="checkbox" class="article-chk" data-article="3.8"> 3.8</td>
+			  <td>Acte de barbarie</td>
+			  <td><input type="number" class="amende" min="0" value="500"></td>
+			  <td><input type="number" class="amende-max" min="0" value="1250"></td>
+			  <td><input type="number" class="temps" min="0" value="0"></td>
+			  <td><input type="number" class="temps-Max" min="0" value="160"></td>
+			</tr>
+			<tr>
+			  <td><input type="checkbox" class="article-chk" data-article="3.9"> 3.9</td>
+			  <td>Acte de terrorisme (peine de mort)</td>
+			  <td><input type="number" class="amende" min="0" value="0"></td>
+			  <td><input type="number" class="amende-max" min="0" value="0"></td>
+			  <td><input type="number" class="temps" min="0" value="0"></td>
+			  <td><input type="number" class="temps-Max" min="0" value="0"></td>
+			</tr>
+			<tr>
+			  <td><input type="checkbox" class="article-chk" data-article="3.10"> 3.10</td>
+			  <td>Évasion (TIG X2)</td>
+			  <td><input type="number" class="amende" min="0" value="0"></td>
+			  <td><input type="number" class="amende-max" min="0" value="800"></td>
+			  <td><input type="number" class="temps" min="0" value="0"></td>
+			  <td><input type="number" class="temps-Max" min="0" value="0"></td>
+			</tr>
+			<tr>
+			  <td><input type="checkbox" class="article-chk" data-article="3.11"> 3.11</td>
+			  <td>Trahison des représentants de l'État</td>
+			  <td><input type="number" class="amende" min="0" value="0"></td>
+			  <td><input type="number" class="amende-max" min="0" value="0"></td>
+			  <td><input type="number" class="temps" min="0" value="0"></td>
+			  <td><input type="number" class="temps-Max" min="0" value="0"></td>
+			</tr>
+			<tr>
+			  <td><input type="checkbox" class="article-chk" data-article="3.12"> 3.12</td>
+			  <td>Trafic de grande ampleur (voir marshall)</td>
+			  <td><input type="number" class="amende" min="0" value="0"></td>
+			  <td><input type="number" class="amende-max" min="0" value="600"></td>
+			  <td><input type="number" class="temps" min="0" value="0"></td>
+			  <td><input type="number" class="temps-Max" min="0" value="170"></td>
+			</tr>
+			<tr>
+			  <td><input type="checkbox" class="article-chk" data-article="3.13"> 3.13</td>
+			  <td>Atteintes à la sécurité nationale (peine de mort)</td>
+			  <td><input type="number" class="amende" min="0" value="0"></td>
+			  <td><input type="number" class="amende-max" min="0" value="0"></td>
+			  <td><input type="number" class="temps" min="0" value="0"></td>
+			  <td><input type="number" class="temps-Max" min="0" value="0"></td>
+			</tr>
+			<tr>
+			  <td><input type="checkbox" class="article-chk" data-article="3.14"> 3.14</td>
+			  <td>Divulgation non autorisée d'informations du Dép.Justice</td>
+			  <td><input type="number" class="amende" min="0" value="100"></td>
+			  <td><input type="number" class="amende-max" min="0" value="300"></td>
+			  <td><input type="number" class="temps" min="0" value="0"></td>
+			  <td><input type="number" class="temps-Max" min="0" value="90"></td>
+			</tr>
+			<tr>
+			  <td><input type="checkbox" class="article-chk" data-article="3.15"> 3.15</td>
+			  <td>Omission de signaler un crime</td>
+			  <td><input type="number" class="amende" min="0" value="100"></td>
+			  <td><input type="number" class="amende-max" min="0" value="300"></td>
+			  <td><input type="number" class="temps" min="0" value="0"></td>
+			  <td><input type="number" class="temps-Max" min="0" value="40"></td>
+			</tr>
+			<tr>
+			  <td><input type="checkbox" class="article-chk" data-article="3.16"> 3.16</td>
+			  <td>Subornation de témoin</td>
+			  <td><input type="number" class="amende" min="0" value="300"></td>
+			  <td><input type="number" class="amende-max" min="0" value="750"></td>
+			  <td><input type="number" class="temps" min="0" value="0"></td>
+			  <td><input type="number" class="temps-Max" min="0" value="120"></td>
+			</tr>
+			<tr>
+			  <td><input type="checkbox" class="article-chk" data-article="3.17"> 3.17</td>
+			  <td>Parjure</td>
+			  <td><input type="number" class="amende" min="0" value="100"></td>
+			  <td><input type="number" class="amende-max" min="0" value="350"></td>
+			  <td><input type="number" class="temps" min="0" value="0"></td>
+			  <td><input type="number" class="temps-Max" min="0" value="80"></td>
+			</tr>
+			<tr>
+			  <td><input type="checkbox" class="article-chk" data-article="3.18"> 3.18</td>
+			  <td>Atteinte aux fonctionnaires fédéraux (decision du juge)</td>
+			  <td><input type="number" class="amende" min="0" value="0"></td>
+			  <td><input type="number" class="amende-max" min="0" value="0"></td>
+			  <td><input type="number" class="temps" min="0" value="0"></td>
+			  <td><input type="number" class="temps-Max" min="0" value="0"></td>
+			</tr>
+			<tr>
+			  <td><input type="checkbox" class="article-chk" data-article="3.19"> 3.19</td>
+			  <td>Vol de bien d’État (decision du juge)</td>
+			  <td><input type="number" class="amende" min="0" value="0"></td>
+			  <td><input type="number" class="amende-max" min="0" value="0"></td>
+			  <td><input type="number" class="temps" min="0" value="0"></td>
+			  <td><input type="number" class="temps-Max" min="0" value="0"></td>
+			</tr>
+			<tr>
+			  <td><input type="checkbox" class="article-chk" data-article="3.20"> 3.20</td>
+			  <td>Non respect d'un Amendement (peine de mort)</td>
+			  <td><input type="number" class="amende" min="0" value="0"></td>
+			  <td><input type="number" class="amende-max" min="0" value="0"></td>
+			  <td><input type="number" class="temps" min="0" value="0"></td>
+			  <td><input type="number" class="temps-Max" min="0" value="0"></td>
+			</tr>
+			</table>
+			<!-- Fin crimes -->
+			<!-- Debut saisie -->
+			<table style ="margin-top: 1em;">
+        <tr>
+          <th>Article</th>
+          <th>Nom</th>
+		  <th>Quantité(s)</th>
+          <th>Amende($)</th>
+		  <th>Amende max($)</th>
+        </tr>
+				<tr>
+				  <td><input type="checkbox" class="article-chk" data-article="4.1"> 4.1</td>
+				  <td>Drogues</td>
+				  <td><input type="number" class="Quantité" min="1" value="1"></td>
+				  <td><input type="number" class="amendeSaisie" min="1.5" max="1.5" value="1.5"></td>
+				</tr>
+				<tr>
+				  <td><input type="checkbox" class="article-chk" data-article="4.2"> 4.2</td>
+				  <td>Alcool de contrebande</td>
+				  <td><input type="number" class="Quantité" min="1" value="1"></td>
+				  <td><input type="number" class="amendeSaisie" min="1.5" max="1.5" value="1.5"></td>
+				</tr>
+				<tr>
+				  <td><input type="checkbox" class="article-chk" data-article="4.4"> 4.4</td>
+				  <td>Objets illégaux</td>
+				  <td><input type="number" class="Quantité" min="1" value="1"></td>
+				  <td><input type="number" class="amende" min="0" value="500"></td>
+				  <td><input type="number" class="amende-max" min="0" value="1500"></td>
+				</tr>
+				<tr>
+				  <td><input type="checkbox" class="article-chk" data-article="4.5"> 4.5</td>
+				  <td>Butin et recel (rubis, diamant, bijoux)</td>
+				  <td><input type="number" class="Quantité" min="1" value="1"></td>
+				  <td><input type="number" class="amendeSaisie" min="20" max="20" value="20"></td>
+				</tr>
+				<tr>
+				  <td><input type="checkbox" class="article-chk" data-article="4.6"> 4.6</td>
+				  <td>Traffic d'or (130$ par lingot)</td>
+				  <td><input type="number" class="Quantité" min="1" value="1"></td>
+				  <td><input type="number" class="amendeSaisie" min="130" max="130" value="130"></td>
+				</tr>
+				<tr>
+				  <td><input type="checkbox" class="article-chk" data-article="4.7"> 4.7</td>
+				  <td>Traffic d'argent</td>
+				  <td><input type="number" class="Quantité" min="1" value="1"></td>
+				  <td><input type="number" class="amendeSaisie" min="1" max="1" value="1"></td>
+				</tr>
+				<tr>
+				  <td><input type="checkbox" class="article-chk" data-article="4.8"> 4.8</td>
+				  <td>Possession d'arme illégale</td>
+				  <td><input type="number" class="Quantité" min="1" value="1"></td>
+				  <td><input type="number" class="amendeSaisie" min="0" value="1000"></td>
+				  <td><input type="number" class="amende-max" min="0" value="2000"></td>
+				</tr>
+			</table>
+    </div>
+    <div class="right">
+      <h2>Export texte brut</h2>
+      <div class="export-text" id="export-area"></div>
+      <div class="total-box" id="total-box">Total Amende: 0 $</div>
+      <button id="export-btn">Exporter texte brut</button>
+    </div>
+  </div>
+
+  <!--<script>
+    document.getElementById('export-btn').addEventListener('click', function() {
+      const rows = document.querySelectorAll('#penal-table tr');
+      let output = '';
+      let totalAmende = 0;
+      let totalTemps = 0;
+      rows.forEach((row, index) => {
+        if (index === 0) return;
+        const chk = row.querySelector('.article-chk');
+        if (chk && chk.checked) {
+          const article = chk.getAttribute('data-article');
+          const nom = row.cells[1].textContent;
+          const amendeVal = +row.querySelector('.amende').value || 0;
+          const amendeMaxVal = +row.querySelector('.amende-max').value || 0;
+          const tempsVal = +row.querySelector('.temps').value || 0;
+          const tempsMaxVal = +row.querySelector('.temps-Max').value || 0;
+          output += 'Article ' + article + ' – ' + nom + 
+          '\nMaximal : ' + amendeMaxVal + ' $, ' + tempsMaxVal + ' TIG' +
+          '\nRetenu : ' + amendeVal + ' $, ' + tempsVal + ' TIG\n\n';
+          totalAmende += amendeVal;
+          totalTemps += tempsVal;
+        }
+      });
+      output += 'Total Amende: ' + totalAmende + ' $\n';
+      output += 'Total géôle / TIG: ' + totalTemps + ' TIG';
+      document.getElementById('export-area').textContent = output;
+      document.getElementById('total-box').textContent = 'Total Amende: ' + totalAmende + ' $';
+    });
+  </script>-->
+  
+	  <script>
+		document.getElementById('export-btn').addEventListener('click', function() {
+		  const tables = document.querySelectorAll('.left table');
+		  let output = '';
+		  let totalAmende = 0;
+		  let totalTemps = 0;
+		  let totalAmendeMaxVal = 0;
+		  let totalSaisies = 0;
+
+		  tables.forEach(table => {
+			const rows = table.querySelectorAll('tr');
+			rows.forEach((row, index) => {
+			  if (index === 0) return; // ignore header
+
+			  const chk = row.querySelector('.article-chk');
+			  if (chk && chk.checked) {
+				const article = chk.getAttribute('data-article');
+				const nom = row.cells[1].textContent;
+
+				// Inputs
+				const amendeInput = row.querySelector('.amende');
+				const amendeMaxInput = row.querySelector('.amende-max');
+				const tempsInput = row.querySelector('.temps');
+				const tempsMaxInput = row.querySelector('.temps-Max');
+				const quantiteInput = row.querySelector('.Quantité');
+				const amendeSaisieInput = row.querySelector('.amendeSaisie');
+
+				// Valeurs
+				const amendeVal = amendeInput ? parseFloat(amendeInput.value) || 0 : 0;
+				const amendeMaxVal = amendeMaxInput ? parseFloat(amendeMaxInput.value) || 0 : 0;
+				const tempsVal = tempsInput ? parseFloat(tempsInput.value) || 0 : 0;
+				const tempsMaxVal = tempsMaxInput ? parseFloat(tempsMaxInput.value) || 0 : 0;
+				const quantiteVal = quantiteInput ? parseFloat(quantiteInput.value) || 0 : 0;
+				const amendeSaisieVal = amendeSaisieInput ? parseFloat(amendeSaisieInput.value) || 0 : 0;
+
+				let ligne = 'Article ' + article + ' – ' + nom + '\n';
+
+				if (amendeSaisieInput) {
+				  // calcul quantité × amende
+				  const totalSaisie = quantiteVal * amendeSaisieVal;
+				  ligne += 'Quantité : ' + quantiteVal + 
+						   ' × ' + amendeSaisieVal + 
+						   ' $ = ' + totalSaisie + ' $\n\n';
+				  totalAmende += totalSaisie;
+				  totalSaisies += totalSaisie;
+				  totalAmendeMaxVal += totalSaisie;
+				} else {
+				  // sa,s calcul
+				  ligne += 'Maximale : ' + amendeMaxVal + ' $, ' + tempsMaxVal + ' TIG' +
+						   '\nRetenu : ' + amendeVal + ' $, ' + tempsVal + ' TIG\n\n';
+				  totalAmendeMaxVal += amendeMaxVal;
+				  totalAmende += amendeVal;
+				  totalTemps += tempsVal;
+				}
+
+				output += ligne;
+			  }
+			});
+		  });
+		  
+		  
+		  output += 'Amende maximale: ' + totalAmendeMaxVal + ' $\n';
+		  output += 'Montant des Saisies: ' + totalSaisies + ' $\n';
+		  output += 'Total Amende retenue: ' + totalAmende + ' $\n';
+		  output += 'Total géôle / TIG: ' + totalTemps + ' TIG';
+
+		  document.getElementById('export-area').textContent = output;
+		  document.getElementById('total-box').textContent = 'Total Amende: ' + totalAmende + ' $';
+		});
+
+		</script>
+
+		<div id=textMemo>
+		<h2>Pensez à supprimer les aides telles que :</h2>
+		<ul>
+			<li>(Decision du juge), </li>
+			<li>(+remboursement), </li>
+			<li>(Peine de mort) </li>
+		</div>
+	</body>
+</html>
