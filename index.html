@@ -18,8 +18,10 @@
       <h1>Code Pénal USA</h1>
       <div id="color-buttons">
         <button onclick="setTheme('red')">Blackwater</button>
+		<button onclick="setTheme('blue')">Saint-Denis</button>
         <button onclick="setTheme('green')">Strawberry</button>
         <button onclick="setTheme('yellow')">Valentine</button>
+		<button onclick="setTheme('orange')">Rhodes</button>
       </div>
     </div>
   </header>
@@ -613,9 +615,9 @@
 				</tr>
 				<tr>
 				  <td><input type="checkbox" class="article-chk" data-article="4.4"> 4.4</td>
-				  <td>Objets illégaux</td>
+				  <td>Objets illégaux(Voir tableau des amendes)</td>
 				  <td><input type="number" class="Quantité" min="1" value="1"></td>
-				  <td><input type="number" class="amende" min="0" value="500"></td>
+				  <td><input type="number" class="amende" min="0" value="0"></td>
 				  <td><input type="number" class="amende-max" min="0" value="1500"></td>
 				</tr>
 				<tr>
@@ -727,24 +729,34 @@
       <li>(Peine de mort) </li>
     </ul>
   </div>
+  
+  <div id="tableauDesAmendes">
+  <button id="listing">
+	<link a href
+  </button>
 
   <script>
-    function setTheme(theme) {
-      document.body.classList.remove('theme-red','theme-green','theme-yellow');
-      document.body.classList.add('theme-' + theme);
-      try { localStorage.setItem('penal-theme', theme); } catch (e) {}
-    }
+  function setTheme(theme) {
+    document.body.classList.remove(
+      'theme-red', 'theme-green', 'theme-yellow', 'theme-blue', 'theme-orange'
+    );
+    document.body.classList.add('theme-' + theme);
+    try { localStorage.setItem('penal-theme', theme); } catch (e) {}
+  }
 
-    (function(){
-      try {
-        const saved = localStorage.getItem('penal-theme');
-        if (saved) {
-          document.body.classList.remove('theme-red','theme-green','theme-yellow');
-          document.body.classList.add('theme-' + saved);
-        }
-      } catch(e){}
-    })();
-  </script>
+  (function(){
+    try {
+      const saved = localStorage.getItem('penal-theme');
+      if (saved) {
+        document.body.classList.remove(
+          'theme-red', 'theme-green', 'theme-yellow', 'theme-blue', 'theme-orange'
+        );
+        document.body.classList.add('theme-' + saved);
+      }
+    } catch(e){}
+  })();
+</script>
+
 
 </body>
 </html>
