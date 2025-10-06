@@ -73,6 +73,8 @@
     .header-bg .bg.red { background-image: url('Blackwatermainstreet.png'); }
     .header-bg .bg.green { background-image: url('Strawberrymainstreet.png'); }
     .header-bg .bg.yellow { background-image: url('Valentinemainstreet.png'); }
+	.header-bg .bg.blue { background-image: url('saintdenismainstreet.png'); }
+	.header-bg .bg.orange { background-image: url('Rhodesmainstreet.png'); }
 
     .header-content { position: relative; z-index: 2; }
     header h1 { margin: 0; font-size: 1.8rem; color: #f5f5f5; }
@@ -193,10 +195,14 @@
     body.theme-red { --main-color: #cf0404; }
     body.theme-green { --main-color: #00cc00; }
     body.theme-yellow { --main-color: #ffcc00; }
+	body.theme-blue { --main-color: #063970; }
+	body.theme-orange { --main-color: #de6a0c; }
 
     body.theme-red .header-bg .bg.red { opacity: 1; }
     body.theme-green .header-bg .bg.green { opacity: 1; }
     body.theme-yellow .header-bg .bg.yellow { opacity: 1; }
+	body.theme-blue .header-bg .bg.blue { opacity: 1; }
+	body.theme-orange .header-bg .bg.orange { opacity: 1; }
 
     @media (max-width: 900px) { 
 	.container { 
