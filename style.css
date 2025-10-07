@@ -73,8 +73,8 @@
     .header-bg .bg.red { background-image: url('Blackwatermainstreet.png'); }
     .header-bg .bg.green { background-image: url('Strawberrymainstreet.png'); }
     .header-bg .bg.yellow { background-image: url('Valentinemainstreet.png'); }
-	.header-bg .bg.blue { background-image: url('Saintdenismainstreet.png'); }
-	.header-bg .bg.orange { background-image: url('Rhodesmainstreet.png'); }
+	.header-bg .bg.blue { background-image: url('Saintdenis.png'); }
+	.header-bg .bg.orange { background-image: url('Rhodes.png'); }
 
     .header-content { position: relative; z-index: 2; }
     header h1 { margin: 0; font-size: 1.8rem; color: #f5f5f5; }
@@ -212,4 +212,5 @@
 	width: auto; 
 		} 
 	}
+
 
