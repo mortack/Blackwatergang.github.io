@@ -657,107 +657,119 @@
     </div>
   </div>
 
-  <script>
-    document.getElementById('export-btn').addEventListener('click', function() {
-      const tables = document.querySelectorAll('.left table');
-      let output = '';
-      let totalAmende = 0;
-      let totalTemps = 0;
-      let totalAmendeMaxVal = 0;
-      let totalSaisies = 0;
+	<script> // Output text
+		document.getElementById('export-btn').addEventListener('click', function() {
+		  const tables = document.querySelectorAll('.left table');
+		  let output = '';
+		  let totalAmende = 0;
+		  let totalTemps = 0;
+		  let totalAmendeMaxVal = 0;
+		  let totalSaisies = 0;
 
-      tables.forEach(table => {
-        const rows = table.querySelectorAll('tr');
-        rows.forEach((row, index) => {
-          if (index === 0) return;
+		  tables.forEach(table => {
+			const rows = table.querySelectorAll('tr');
+			rows.forEach((row, index) => {
+			  if (index === 0) return;
 
-          const chk = row.querySelector('.article-chk');
-          if (chk && chk.checked) {
-            const article = chk.getAttribute('data-article');
-            const nom = row.cells[1].textContent;
+			  const chk = row.querySelector('.article-chk');
+			  if (chk && chk.checked) {
+				const article = chk.getAttribute('data-article');
+				const nom = row.cells[1].textContent;
 
-            const amendeInput = row.querySelector('.amende');
-            const amendeMaxInput = row.querySelector('.amende-max');
-            const tempsInput = row.querySelector('.temps');
-            const tempsMaxInput = row.querySelector('.temps-Max');
-            const quantiteInput = row.querySelector('.Quantité');
-            const amendeSaisieInput = row.querySelector('.amendeSaisie');
+				const amendeInput = row.querySelector('.amende');
+				const amendeMaxInput = row.querySelector('.amende-max');
+				const tempsInput = row.querySelector('.temps');
+				const tempsMaxInput = row.querySelector('.temps-Max');
+				const quantiteInput = row.querySelector('.Quantité');
+				const amendeSaisieInput = row.querySelector('.amendeSaisie');
 
-            const amendeVal = amendeInput ? parseFloat(amendeInput.value) || 0 : 0;
-            const amendeMaxVal = amendeMaxInput ? parseFloat(amendeMaxInput.value) || 0 : 0;
-            const tempsVal = tempsInput ? parseFloat(tempsInput.value) || 0 : 0;
-            const tempsMaxVal = tempsMaxInput ? parseFloat(tempsMaxInput.value) || 0 : 0;
-            const quantiteVal = quantiteInput ? parseFloat(quantiteInput.value) || 0 : 0;
-            const amendeSaisieVal = amendeSaisieInput ? parseFloat(amendeSaisieInput.value) || 0 : 0;
+				const amendeVal = amendeInput ? parseFloat(amendeInput.value) || 0 : 0;
+				const amendeMaxVal = amendeMaxInput ? parseFloat(amendeMaxInput.value) || 0 : 0;
+				const tempsVal = tempsInput ? parseFloat(tempsInput.value) || 0 : 0;
+				const tempsMaxVal = tempsMaxInput ? parseFloat(tempsMaxInput.value) || 0 : 0;
+				const quantiteVal = quantiteInput ? parseFloat(quantiteInput.value) || 0 : 0;
+				const amendeSaisieVal = amendeSaisieInput ? parseFloat(amendeSaisieInput.value) || 0 : 0;
 
-            let ligne = 'Article ' + article + ' – ' + nom + '\n';
+				let ligne = 'Article ' + article + ' – ' + nom + '\n';
 
-            if (amendeSaisieInput) {
-              const totalSaisie = quantiteVal * amendeSaisieVal;
-              ligne += 'Quantité : ' + quantiteVal + 
-                       ' × ' + amendeSaisieVal + 
-                       ' $ = ' + totalSaisie + ' $\n\n';
-              totalAmende += totalSaisie;
-              totalSaisies += totalSaisie;
-              totalAmendeMaxVal += totalSaisie;
-            } else {
-              ligne += 'Maximale : ' + amendeMaxVal + ' $, ' + tempsMaxVal + ' TIG' +
-                       '\nRetenu : ' + amendeVal + ' $, ' + tempsVal + ' TIG\n\n';
-              totalAmendeMaxVal += amendeMaxVal;
-              totalAmende += amendeVal;
-              totalTemps += tempsVal;
-            }
+				if (amendeSaisieInput) {
+				  const totalSaisie = quantiteVal * amendeSaisieVal;
+				  ligne += 'Quantité : ' + quantiteVal + 
+						   ' × ' + amendeSaisieVal + 
+						   ' $ = ' + totalSaisie + ' $\n\n';
+				  totalAmende += totalSaisie;
+				  totalSaisies += totalSaisie;
+				  totalAmendeMaxVal += totalSaisie;
+				} else {
+				  ligne += 'Maximale : ' + amendeMaxVal + ' $, ' + tempsMaxVal + ' TIG' +
+						   '\nRetenu : ' + amendeVal + ' $, ' + tempsVal + ' TIG\n\n';
+				  totalAmendeMaxVal += amendeMaxVal;
+				  totalAmende += amendeVal;
+				  totalTemps += tempsVal;
+				}
 
-            output += ligne;
-          }
-        });
-      });
+				output += ligne;
+			  }
+			});
+		  });
 
-      output += 'Amende maximale: ' + totalAmendeMaxVal + ' $\n';
-      output += 'Montant des Saisies: ' + totalSaisies + ' $\n';
-      output += 'Total Amende retenue: ' + totalAmende + ' $\n';
-      output += 'Total geôle / TIG: ' + totalTemps + ' TIG';
+		output += 'Amende maximale: ' + totalAmendeMaxVal + ' $\n';
+		output += 'Montant des Saisies: ' + totalSaisies + ' $\n';
+		output += 'Total Amende retenue: ' + totalAmende + ' $\n';
+		output += 'Total geôle / TIG: ' + totalTemps + ' TIG';
 
-      document.getElementById('export-area').textContent = output;
-      document.getElementById('total-box').textContent = 'Total Amende: ' + totalAmende + ' $';
-    });
-  </script>
+		document.getElementById('export-area').textContent = output;
+		document.getElementById('total-box').textContent = 'Total Amende: ' + totalAmende + ' $';
+		});
+	</script>
 
-  <div id="textMemo">
-    <h2>Pensez à supprimer les aides telles que :</h2>
-    <ul>
-      <li>(Decision du juge), </li>
-      <li>(+remboursement), </li>
-      <li>(Peine de mort) </li>
-    </ul>
-  </div>
-  
-  <div id="tableauDesAmendes">
-  <button id="listing">
+	<div id="textMemo">
+	<h2>Pensez à supprimer les aides telles que :</h2>
+	<ul>
+	<li>(Decision du juge), </li>
+	<li>(+remboursement), </li>
+	<li>(Peine de mort) </li>
+	</ul>
+	</div>
+
+	<div id="tableauDesAmendes">
+	<button id="listing">
 	<link a href
-  </button>
+	</button>
 
-  <script>
-  function setTheme(theme) {
-    document.body.classList.remove(
-      'theme-red', 'theme-green', 'theme-yellow', 'theme-blue', 'theme-orange'
-    );
-    document.body.classList.add('theme-' + theme);
-    try { localStorage.setItem('penal-theme', theme); } catch (e) {}
-  }
+	<script> // set le theme voulu
+	function setTheme(theme) {
+	document.body.classList.remove(
+	  'theme-red', 'theme-green', 'theme-yellow', 'theme-blue', 'theme-orange'
+	);
+	document.body.classList.add('theme-' + theme);
+	try { localStorage.setItem('penal-theme', theme); } catch (e) {}
+	}
 
-  (function(){
-    try {
-      const saved = localStorage.getItem('penal-theme');
-      if (saved) {
-        document.body.classList.remove(
-          'theme-red', 'theme-green', 'theme-yellow', 'theme-blue', 'theme-orange'
-        );
-        document.body.classList.add('theme-' + saved);
-      }
-    } catch(e){}
-  })();
-</script>
+	  (function(){
+		try {
+		  const saved = localStorage.getItem('penal-theme');
+		  if (saved) {
+			document.body.classList.remove(
+			  'theme-red', 'theme-green', 'theme-yellow', 'theme-blue', 'theme-orange'
+			);
+			document.body.classList.add('theme-' + saved);
+		  }
+		} catch(e){}
+	  })();
+	</script>
+	<script> //Surbrillance
+	  document.querySelectorAll('.article-chk').forEach(chk => {
+		chk.addEventListener('change', function() {
+		  const row = this.closest('tr');
+		  if (this.checked) {
+			row.classList.add('highlighted');
+		  } else {
+			row.classList.remove('highlighted');
+		  }
+		});
+	  });
+	</script>
 
 
 </body>
