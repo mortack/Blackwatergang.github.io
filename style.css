@@ -212,5 +212,27 @@
 	width: auto; 
 		} 
 	}
+	
+	tr.highlighted {
+	  background-color: rgba(207, 4, 4, 0.25); /* theme rouge */
+	  box-shadow: inset 0 0 10px var(--main-color);
+	  transition: background-color 0.4s ease, box-shadow 0.3s ease;
+	}
+
+	body.theme-green tr.highlighted {
+	  background-color: rgba(0, 204, 0, 0.25);
+	}
+
+	body.theme-yellow tr.highlighted {
+	  background-color: rgba(255, 204, 0, 0.25);
+	}
+
+	body.theme-blue tr.highlighted {
+	  background-color: rgba(6, 57, 112, 0.25);
+	}
+
+	body.theme-orange tr.highlighted {
+	  background-color: rgba(222, 106, 12, 0.25);
+	}
 
 
